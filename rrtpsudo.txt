@@ -1,0 +1,58 @@
+Psudo-runthrough of an RRT* Iteration
+
+get_state -> new_state
+if (collision_free(new_state) == true)
+{
+	nearest_vertex(new_state) -> neighboring_point
+	generate_path(new_state,neighboring_point) -> new_path
+	if (collision_free(new_path) == true)
+	{
+		min_cost_vertex = neighboring_point;
+		min_cost_path = new_path;
+		
+		find_other_near_vertices(new_state) -> v[i]
+		foreach(v[i])
+		{
+			generate_path(new_state,v[i]) -> alt_path
+			if (collision_free(alt_path) == true)
+			{
+				if (cost(alt_path) < cost(min_cost_path))
+				{
+					min_cost_vertex = v[i];
+					min_cost_path = alt_path;
+				}
+			}
+			if (time >= limit)
+			{
+				return min_cost_path;
+			}
+		}
+		if (time >= limit)
+		{
+			return min_cost_path;
+		}
+		else
+		{
+			reiterate entire program with new vertex, compare against min_cost_path
+			return optimum choice when time runs out
+		}	
+	}
+	else if(time < limit)
+	{
+		get_state -> new_state
+		rerun algorithm
+	}
+	else
+	{
+		pass to LOS
+	}	
+}
+else if(time < limit)
+{
+	get_state -> new_state
+	rerun algorithm
+}
+else
+{
+	pass to LOS
+}
